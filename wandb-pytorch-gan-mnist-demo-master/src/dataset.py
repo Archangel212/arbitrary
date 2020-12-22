@@ -7,4 +7,4 @@ def get_mnist():
         transforms.ToTensor(),
         transforms.Normalize(mean=(0.5,), std=(0.5,))
     ])
-    return MNIST(root='~/toy-data', train=True, transform=transform)
+    return MNIST(root='~/toy-data', train=True, transform=transform, download=True)

@@ -11,16 +11,63 @@ import yaml
 from dataset import get_mnist
 from networks import Discriminator, Generator
 
+# # Number of workers for dataloader
+# workers = 2
+
+# # Batch size during training
+# batch_size = 128
+
+# # Spatial size of training images. All images will be resized to this
+# #   size using a transformer.
+# image_size = 32
+
+# # Number of channels in the training images. For color images this is 3
+# nc = 3
+
+# # Size of z latent vector (i.e. size of generator input)
+# nz = 100
+
+# # Size of feature maps in generator
+# ngf = 64
+
+# # Size of feature maps in discriminator
+# ndf = 64
+
+# # Number of training epochs
+# num_epochs = 30
+
+# # Learning rate for optimizers
+# lr = 0.0002
+
+# # Beta1 hyperparam for Adam optimizers
+# beta1 = 0.5
+
+# # Number of GPUs available. Use 0 for CPU mode.
+# ngpu = 1
+
+# parser = argparse.ArgumentParser()
+# parser.add_argument('--workers', type=int, default=2)
+# parser.add_argument('--batch_size', type=int, default=128)
+# parser.add_argument('--nc', type=int, default=3)
+# parser.add_argument('--nz', type=int, default=100)
+# parser.add_argument('--ngf', type=int, default=64)
+# parser.add_argument('--ndf', type=int, default=64)
+# parser.add_argument('--num_epochs', type=int, default=30)
+# parser.add_argument('--lr', type=float, default=0.0002)
+# parser.add_argument('--beta1', type=float, default=0.5)
+# parser.add_argument('--ngpu', type=int, default=1)
+# parser.add_argument('--log_dir', type=str, default="log")
+# opt = parser.parse_args()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--params', type=str, required=True)
 opt = parser.parse_args()
-
 params_path = Path.cwd() / Path(opt.params)
 params = yaml.safe_load(params_path.read_text())
 
 params['cuda'] = params['cuda'] and torch.cuda.is_available()
 
+wandb.login()
 wandb.init(project='wandb-pytorch-gan-mnist-demo', config=params)
 run_id = wandb.run.id
 run_log_dir = Path(params['log_dir']) / run_id
